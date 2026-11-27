@@ -1,0 +1,12 @@
+'use strict';
+const assert = require('assert');
+const N = [1202.88, 252.76];
+const O = [1312.26, 252.76];
+const knownDistanceMM = 7720;
+const pdfDistancePoints = Math.hypot(O[0]-N[0], O[1]-N[1]);
+const mmPerPDFPoint = knownDistanceMM / pdfDistancePoints;
+assert(Math.abs(pdfDistancePoints - 109.38) < 1e-10, 'N-O PDF distance must remain 109.38 points');
+assert(Math.abs(mmPerPDFPoint - 70.5796306454562) < 1e-10, 'N-O scale arithmetic changed');
+const html = require('fs').readFileSync(__dirname + '/index.html', 'utf8');
+assert(html.includes('mmPerPDFPoint:70.579630645456'), 'built-in N-O calibration constant missing');
+console.log('PASS N-O reference distance and 7720 mm calibration arithmetic');
